@@ -71,7 +71,6 @@ class _NewprojectPageState extends State<NewprojectPage> {
                       children: [
                         Expanded(
                             child: TextFormField(
-                          autofocus: true,
                           decoration: const InputDecoration(
                               border: UnderlineInputBorder(),
                               labelText: "Titre du projet",
@@ -318,7 +317,7 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                 // on sauvegarde l'etat du formulaire
 
                                 formKey.currentState!.save();
-                                
+
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text(
@@ -328,7 +327,6 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                 );
                                 var db = DatabaseService();
 
-
                                 Projet projet = Projet.idNull(
                                     titre!,
                                     description!,
@@ -337,8 +335,7 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                     [],
                                     null,
                                     null,
-                                    Projet.total + 1
-                                    );
+                                    Projet.total + 1);
 
                                 db.uploadProjet(
                                     projet, images, rapport, code_source);

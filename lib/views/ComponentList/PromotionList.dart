@@ -58,13 +58,12 @@ class PromotionList extends StatelessWidget {
                               const Text(">>"),
                               TextButton(
                                   child: Text(
-                                    "${_niveau.numero.toString()}",
+                                    _niveau.numero.toString(),
                                     style: const TextStyle(fontSize: 10),
                                   ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   }),
-                              const Text(">")
                             ])),
                         ListView.builder(
                           shrinkWrap:
