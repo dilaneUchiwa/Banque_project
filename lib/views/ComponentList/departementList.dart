@@ -22,11 +22,11 @@ class DepartementList extends StatelessWidget {
                 builder: ((context, snapshot) {
                   //snapshot.connectionState==ConnectionState.none
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        semanticsValue: "Chargement en cours...",
-                      ),
-                    );
+                    return Center(
+                        child: Row(children: const [
+                      Text("Chargement en cours..."),
+                      CircularProgressIndicator()
+                    ]));
                   } else if (snapshot.data is! List<Departement>) {
                     return const ServerError();
                   } else {

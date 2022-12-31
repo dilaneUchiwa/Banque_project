@@ -11,9 +11,11 @@ import '../service/DatabaseService.dart';
 import 'Component/drawerWidget.dart';
 
 class HomePage extends StatefulWidget {
-  User user;
-  HomePage(this.user);
+  static User user = user;
 
+  HomePage(User user, {super.key}) {
+    HomePage.user = user;
+  }
   //HomePage();
 
   @override
@@ -31,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     _NavigationBarItems.add(const BottomNavigationBarItem(
         label: "Mes projets", icon: Icon(Icons.my_library_books)));
     _NavigationBarItems.add(const BottomNavigationBarItem(
-        label: "Autre Projets", icon: Icon(Icons.other_houses)));
+        label: "Autres Projets", icon: Icon(Icons.other_houses)));
   }
 
   @override
@@ -50,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                     icon: const Icon(Icons.dark_mode)),
               )
             ]),
-        drawer: DrawerWidget(widget.user, _pageController),
+        drawer: DrawerWidget(HomePage.user, _pageController),
         body: PageView(
           onPageChanged: ((value) {
             setState(() {
@@ -58,14 +60,16 @@ class _HomePageState extends State<HomePage> {
             });
           }),
           controller: _pageController,
-          
           children: [
             StreamBuilder(
-                stream: DatabaseService().getUserprojects(widget.user),
+                stream: DatabaseService().getUserprojects(HomePage.user),
                 builder: ((context, snapshot) {
-
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Center(
+                        child: Row(children: const [
+                      Text("Chargement en cours..."),
+                      CircularProgressIndicator()
+                    ]));
                   }
                   if (!(snapshot.hasData) ||
                       (snapshot.data as List<Projet>).isEmpty) {
@@ -76,11 +80,45 @@ class _HomePageState extends State<HomePage> {
                     if (listeProjet.length == 1) {
                       return ProjectPage(listeProjet[0]);
                     } else {
-                      return ListView.builder(
-                          itemCount: listeProjet.length,
-                          itemBuilder: (context, index) {
-                            return ItemProject(listeProjet[index]);
-                          });
+                      return SafeArea(
+                        child: Column(
+                          children: [
+                            Flexible(
+                                flex: 1,
+                                child: Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    decoration: BoxDecoration(
+                                        color: const Color.fromARGB(
+                                            255, 82, 100, 112),
+                                        border: Border.all(
+                                            color: Theme.of(context)
+                                                .primaryColor)),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Text(
+                                            "BIENVENU ... \t\t\t\t\t|\t\t\t\t\t VOICI VOS DIFFERENTS PROJETS",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ))),
+                            Flexible(
+                                flex: 12,
+                                child: Container(
+                                    height: double.infinity,
+                                    child: ListView.builder(
+                                        itemCount: listeProjet.length,
+                                        itemBuilder: (context, index) {
+                                          return ItemProject(
+                                              listeProjet[index]);
+                                        })))
+                          ],
+                        ),
+                      );
                     }
                   }
                 })),
@@ -88,7 +126,8 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          //backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
           items: _NavigationBarItems,
           currentIndex: _currentIndex,
           onTap: (value) {

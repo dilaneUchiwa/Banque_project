@@ -30,6 +30,7 @@ class DatabaseService {
       "code_source": projet.code_source,
       "timestamp": FieldValue.serverTimestamp(),
       "uid": projet.uidlist,
+      "progress": projet.progress,
       "number": projet.number
     }).then((DocumentReference doc) => projet.id_projet = doc.id);
   }
@@ -214,6 +215,8 @@ class DatabaseService {
                   document.get("images"),
                   document.get("rapport"),
                   document.get("code_source"),
+                  //document.get("progress"),
+                  0.35,
                   document.get("number"));
             }).toList());
   }
@@ -233,6 +236,8 @@ class DatabaseService {
                   document.get("images"),
                   document.get("rapport"),
                   document.get("code_source"),
+                  //document.get("progress"),
+                  0.35,
                   document.get("number"));
             }).toList());
   }

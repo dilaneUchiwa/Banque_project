@@ -335,6 +335,7 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                     [],
                                     null,
                                     null,
+                                    null,
                                     Projet.total + 1);
 
                                 db.uploadProjet(

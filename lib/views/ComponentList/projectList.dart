@@ -23,7 +23,6 @@ class ProjectList extends StatelessWidget {
           child: StreamBuilder(
               stream: DatabaseService().getPromotionprojects(_promotion),
               builder: (context, snapshot) {
-                print(snapshot.data);
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                     child: CircularProgressIndicator(),
