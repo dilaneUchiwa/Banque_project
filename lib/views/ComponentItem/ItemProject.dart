@@ -29,7 +29,10 @@ class ItemProject extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: Colors.red),
               ),
-              subtitle: Text(projet.description,
+              subtitle: Text(
+                  projet.description.length >= 120
+                      ? "${projet.description.substring(0, 120)}   ............."
+                      : projet.description,
                   style: const TextStyle(
                       fontSize: 13, fontWeight: FontWeight.bold)),
               onTap: () {

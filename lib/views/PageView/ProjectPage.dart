@@ -67,6 +67,7 @@ class _ProjectPageState extends State<ProjectPage>
         images.add(NetworkImage(image!));
       }
     }
+    print("description : ${widget.projet.description.length}");
 
     void buildDialog() =>
         WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -155,21 +156,28 @@ class _ProjectPageState extends State<ProjectPage>
           //bloc description du projet
           Container(
             padding: const EdgeInsets.all(8),
-            height: MediaQuery.of(context).size.height * 0.21,
-            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Column(children: const [
-                Text(
-                  "Description:",
-                  style: Style.textStyleLabel,
-                )
-              ]),
+            height: widget.projet.description.length >= 300
+                ? MediaQuery.of(context).size.height *
+                    0.21 *
+                    (widget.projet.description.length / 280)
+                : MediaQuery.of(context).size.height * 0.21,
+            child: Column(children: [
+              Column(
+                children: [
+                  Row(
+                    children: const [
+                      Text(
+                        "Description:",
+                        style: Style.textStyleLabel,
+                      )
+                    ],
+                  ),
+                ],
+              ),
               Expanded(
-                  child: Container(
-                margin: const EdgeInsets.only(left: 8),
-                child: Column(children: [
-                  Text(widget.projet.description, style: Style.textStyleContenu)
-                ]),
-              ))
+                  child: Column(children: [
+                Text(widget.projet.description, style: Style.textStyleContenu)
+              ]))
             ]),
           ),
           // bloc presence des  documents
@@ -300,66 +308,6 @@ class _ProjectPageState extends State<ProjectPage>
           ),
 
           // Bloc des boutons d'actions sur le projet
-          Container(
-              padding: const EdgeInsets.all(8),
-              height: MediaQuery.of(context).size.height * 0.09,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          var download = await DatabaseService()
-                              .downloadProjet(widget.projet);
-                          if (download == 1) {
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    "projet ${widget.projet.titre} téléchargé")));
-                          } else if (download == 0) {
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                behavior: SnackBarBehavior.floating,
-                                content:
-                                    const Text("Echec de téléchargement")));
-                          } else {
-                            buildDialog();
-                          }
-                        },
-                        style: ButtonStyle(
-                            fixedSize:
-                                MaterialStateProperty.all(const Size(160, 35)),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)))),
-                        child: const Text(
-                          "Télécharger",
-                          style: TextStyle(fontSize: 18),
-                        )),
-                    ElevatedButton(
-                        onPressed: HomePage.user.uid == widget.projet.uidlist
-                            ? null
-                            : updateButtonMessage,
-                        style: ButtonStyle(
-                          fixedSize:
-                              MaterialStateProperty.all(const Size(160, 35)),
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          backgroundColor:
-                              HomePage.user.uid == widget.projet.uidlist
-                                  ? MaterialStateProperty.all(
-                                      Theme.of(context).primaryColor)
-                                  : MaterialStateProperty.all(Colors.grey),
-                          elevation: MaterialStateProperty.all<double>(
-                              animation!.value),
-                        ),
-                        child: const Text(
-                          "Modifier",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        )),
-                  ])),
           Container(
               padding: const EdgeInsets.all(8),
               height: MediaQuery.of(context).size.height * 0.09,
