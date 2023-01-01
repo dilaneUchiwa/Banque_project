@@ -23,10 +23,12 @@ class DepartementList extends StatelessWidget {
                   //snapshot.connectionState==ConnectionState.none
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                        child: Row(children: const [
-                      Text("Chargement en cours..."),
-                      CircularProgressIndicator()
-                    ]));
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                          Text("Chargement en cours..."),
+                          CircularProgressIndicator()
+                        ]));
                   } else if (snapshot.data is! List<Departement>) {
                     return const ServerError();
                   } else {

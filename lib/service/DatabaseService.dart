@@ -298,6 +298,9 @@ class DatabaseService {
 
     int state = 0;
     DownloadTask downloadTask; //le tache de telechargement en ligne
+    Reference fileRef;
+    File file;
+    String filepath;
 
     //final fileRef = _storage.ref().child("projet/projet1/images/image2.png");
 
@@ -318,16 +321,19 @@ class DatabaseService {
     }
     dirpath = "$dirpath/${projet.titre}";
 
-    var fileRef = _storage.refFromURL(projet.rapport!);
-    var filepath = "${dirpath}/rapport.docx";
-    var file = File(filepath);
-    downloadTask = fileRef.writeToFile(file);
+    if (projet.rapport != null) {
+      fileRef = _storage.refFromURL(projet.rapport!);
+      filepath = "${dirpath}/rapport.docx";
+      file = File(filepath);
+      downloadTask = fileRef.writeToFile(file);
+    }
 
-    fileRef = _storage.refFromURL(projet.code_source!);
-    filepath = "${dirpath}/code_source.zip";
-    file = File(filepath);
-    downloadTask = fileRef.writeToFile(file);
-
+    if (projet.code_source!=null) {
+      fileRef = _storage.refFromURL(projet.code_source!);
+      filepath = "${dirpath}/code_source.zip";
+      file = File(filepath);
+      downloadTask = fileRef.writeToFile(file);
+    }
     // on cree un repertoire pour le image si ca n'existe
 
     if (!Directory("$dirpath/images").existsSync()) {

@@ -56,7 +56,8 @@ dependencies:
   url_launcher: ^6.1.7
   font_awesome_flutter: ^10.3.0
   percent_indicator: ^4.2.2
-
+  cached_network_image: ^3.2.3
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:

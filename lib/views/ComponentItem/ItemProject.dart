@@ -1,6 +1,5 @@
 import 'package:banque_projets/mod%C3%A8le/Projet.dart';
 import 'package:banque_projets/views/PageView/ProjectPage.dart';
-import 'package:banque_projets/views/PageView/ShowProjectPage.dart';
 import 'package:flutter/material.dart';
 
 class ItemProject extends StatelessWidget {
@@ -37,8 +36,7 @@ class ItemProject extends StatelessWidget {
                       fontSize: 13, fontWeight: FontWeight.bold)),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        ShowprojectPage(projet)));
+                    builder: (BuildContext context) => ProjectPage(projet)));
               }),
         ],
       ),

@@ -66,10 +66,12 @@ class _HomePageState extends State<HomePage> {
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                        child: Row(children: const [
-                      Text("Chargement en cours..."),
-                      CircularProgressIndicator()
-                    ]));
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                          Text("Chargement en cours..."),
+                          CircularProgressIndicator()
+                        ]));
                   }
                   if (!(snapshot.hasData) ||
                       (snapshot.data as List<Projet>).isEmpty) {

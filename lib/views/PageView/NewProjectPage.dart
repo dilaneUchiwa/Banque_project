@@ -320,6 +320,7 @@ class _NewprojectPageState extends State<NewprojectPage> {
 
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
+                                    behavior: SnackBarBehavior.floating,
                                     content: Text(
                                       'sauvegarde en cours',
                                     ),
@@ -342,6 +343,7 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                     projet, images, rapport, code_source);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
+                                  behavior: SnackBarBehavior.floating,
                                   content: Text(
                                     "projet crée",
                                   ),

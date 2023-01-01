@@ -2,9 +2,10 @@ import 'package:banque_projets/service/Authentification.dart';
 import 'package:banque_projets/views/PageView/AboutPage.dart';
 import 'package:banque_projets/views/PageView/NewProjectPage.dart';
 import 'package:banque_projets/views/PageView/SettingPage.dart';
-import 'package:banque_projets/views/PageView/Structurepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../PageView/StructurePage.dart';
 
 class DrawerWidget extends StatefulWidget {
   final User user;
@@ -16,6 +17,8 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+  bool frState = true;
+  bool lightThemeState = true;
   @override
   Widget build(BuildContext context) {
     ImageProvider<Object> photo;
@@ -67,6 +70,79 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                               color: Colors.white, fontSize: 12))
                     ])
                   ]),
+            ),
+            // partie des parametres
+
+            Container(
+              height: MediaQuery.of(context).size.height * 0.18,
+              width: double.infinity,
+              decoration: BoxDecoration(color: Colors.grey.withOpacity(0.1)),
+              child: Column(children: [
+                Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+                    child: Column(
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Thème",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                              ),
+                              const SizedBox(
+                                width: 100,
+                              ),
+                              const Icon(color: Colors.black, Icons.dark_mode),
+                              Switch(
+                                  value: lightThemeState,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      lightThemeState = value;
+                                    });
+                                  }),
+                              Icon(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  Icons.light_mode),
+                            ]),
+                      ],
+                    )),
+                Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+                    child: Column(
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Langue ",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                              ),
+                              const SizedBox(
+                                width: 100,
+                              ),
+                              const Text("en"),
+                              Switch(
+                                  value: frState,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      frState = value;
+                                    });
+                                  }),
+                              const Text("fr"),
+                            ]),
+                      ],
+                    ))
+              ]),
             ),
 
             // Corps du drawer
