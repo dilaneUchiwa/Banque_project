@@ -14,7 +14,7 @@ class Projet {
   List<dynamic?> images;
   String? rapport;
   String? code_source;
-  double? progress=0.6;
+  int? progress=0;
   int number;
 
   Projet(

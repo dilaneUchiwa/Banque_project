@@ -2,6 +2,7 @@ import 'package:banque_projets/service/Authentification.dart';
 import 'package:banque_projets/views/PageView/AboutPage.dart';
 import 'package:banque_projets/views/PageView/NewProjectPage.dart';
 import 'package:banque_projets/views/PageView/SettingPage.dart';
+import 'package:banque_projets/views/PageView/Structurepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -102,7 +103,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StructurePage()));
+              },
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 12),

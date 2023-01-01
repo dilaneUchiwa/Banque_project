@@ -215,8 +215,7 @@ class DatabaseService {
                   document.get("images"),
                   document.get("rapport"),
                   document.get("code_source"),
-                  //document.get("progress"),
-                  0.35,
+                  document.get("progress"),
                   document.get("number"));
             }).toList());
   }
@@ -236,8 +235,7 @@ class DatabaseService {
                   document.get("images"),
                   document.get("rapport"),
                   document.get("code_source"),
-                  //document.get("progress"),
-                  0.35,
+                  document.get("progress"),
                   document.get("number"));
             }).toList());
   }
