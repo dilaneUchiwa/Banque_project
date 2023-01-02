@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       //Theme.of(context).primaryColor.value  = Colors.red;
                     },
-                    icon: const Icon(Icons.dark_mode)),
+                    icon: const Icon(Icons.new_releases_outlined)),
               )
             ]),
         drawer: DrawerWidget(HomePage.user, _pageController),
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                   } else {
                     var listeProjet = snapshot.data as List<Projet>;
                     if (listeProjet.length == 1) {
-                      return ProjectPage(listeProjet[0]);
+                      return ProjectPage(listeProjet[0],true);
                     } else {
                       return SafeArea(
                         child: Column(

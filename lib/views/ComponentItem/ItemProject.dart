@@ -36,7 +36,7 @@ class ItemProject extends StatelessWidget {
                       fontSize: 13, fontWeight: FontWeight.bold)),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => ProjectPage(projet)));
+                    builder: (BuildContext context) => ProjectPage(projet,false)));
               }),
         ],
       ),

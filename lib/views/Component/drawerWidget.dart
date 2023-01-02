@@ -1,7 +1,6 @@
 import 'package:banque_projets/service/Authentification.dart';
 import 'package:banque_projets/views/PageView/AboutPage.dart';
 import 'package:banque_projets/views/PageView/NewProjectPage.dart';
-import 'package:banque_projets/views/PageView/SettingPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -201,38 +200,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         )),
                     Text(
                       "Gestion de la structure",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingPage()));
-              },
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                        width: 50,
-                        child: Icon(
-                          Icons.settings,
-                          size: 15,
-                          color: Theme.of(context).colorScheme.primary,
-                        )),
-                    Text(
-                      "Paramètre",
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,

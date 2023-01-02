@@ -84,6 +84,7 @@ class DatabaseService {
             }).toList());
   }
 
+
   Stream<List<Filiere>> getFilieres(Departement dept) {
     return _db
         .collection("Departement")
@@ -253,7 +254,9 @@ class DatabaseService {
 
     for (var image in images) {
       int i = 1;
-      reference = _storage.ref().child("$projectLocation/images/image$i${p.extension(image.path)}");
+      reference = _storage
+          .ref()
+          .child("$projectLocation/images/image$i${p.extension(image.path)}");
       uploadTask = reference.putFile(image);
       taskSnapshot = await uploadTask;
       projet.images.add(await taskSnapshot.ref.getDownloadURL());
@@ -273,7 +276,9 @@ class DatabaseService {
     //sauvegarde du code source
 
     if (codeSource != null) {
-      reference = _storage.ref().child("$projectLocation/code_source${p.extension(codeSource.path)}");
+      reference = _storage
+          .ref()
+          .child("$projectLocation/code_source${p.extension(codeSource.path)}");
       uploadTask = reference.putFile(codeSource);
       taskSnapshot = await uploadTask;
       projet.code_source = await taskSnapshot.ref.getDownloadURL();

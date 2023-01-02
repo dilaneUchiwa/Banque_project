@@ -5,13 +5,16 @@ import 'package:banque_projets/constante/Style.dart';
 import 'package:banque_projets/mod%C3%A8le/Projet.dart';
 import 'package:banque_projets/service/DatabaseService.dart';
 import 'package:banque_projets/views/HomePage.dart';
+import 'package:banque_projets/views/PageView/NewProjectPage.dart';
+import 'package:banque_projets/views/PageView/UpdateProjectPage.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ProjectPage extends StatefulWidget {
   Projet projet;
+  bool homepage;
   //const ProjectPage({super.key});
-  ProjectPage(this.projet, {super.key});
+  ProjectPage(this.projet, this.homepage, {super.key});
 
   @override
   State<ProjectPage> createState() => _ProjectPageState();
@@ -54,46 +57,80 @@ class _ProjectPageState extends State<ProjectPage>
     List<String> presence = ["oui", "non"];
 
     return Scaffold(
-      appBar: AppBar(
-          title: const Text(
-            "BANK PROJECT",
-            style: TextStyle(fontSize: 18),
-          ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(2),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    "Mise à jour",
-                    style: TextStyle(color: Colors.white, fontSize: 10),
-                  ),
-                )
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: IconButton(
-                  onPressed: () {
-                    HomePage.user.uid == widget.projet.uidlist
-                        ? null
-                        : updateButtonMessage(this.context);
-                  },
-                  color: HomePage.user.uid == widget.projet.uidlist
-                      ? Colors.white
-                      : Colors.grey,
-                  iconSize: 35,
-                  padding: const EdgeInsets.all(10),
-                  icon: const Icon(Icons.update_rounded)),
-            )
-          ]),
+      appBar: widget.homepage
+          ? null
+          : AppBar(
+              title: const Text(
+                "BANK PROJECT",
+                style: TextStyle(fontSize: 18),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "Mise à jour",
+                        style: TextStyle(color: Colors.white, fontSize: 10),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: IconButton(
+                        onPressed: () {
+                          HomePage.user.uid == widget.projet.uidlist
+                              ? updateProject(widget.projet)
+                              : updateButtonMessage(this.context);
+                        },
+                        color: HomePage.user.uid == widget.projet.uidlist
+                            ? Colors.white
+                            : Colors.grey,
+                        iconSize: 35,
+                        padding: const EdgeInsets.all(10),
+                        icon: const Icon(Icons.update_rounded)),
+                  )
+                ]),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            widget.homepage
+                ? Container(
+                    height: 70,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                padding: const EdgeInsets.all(0),
+                                color: Theme.of(context).primaryColor,
+                                iconSize: 30,
+                                icon: const Icon(Icons.update_rounded)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Mise à jour",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 10),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ))
+                : Row(),
+
             // bloc entete du projet
             Container(
               height: MediaQuery.of(context).size.height * 0.06,
@@ -341,5 +378,11 @@ class _ProjectPageState extends State<ProjectPage>
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
           content: const Text("Echec de téléchargement")));
     }
+  }
+
+  void updateProject(Projet projet) {
+    // Navigator.pop(context);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => UpdateprojectPage(projet)));
   }
 }
