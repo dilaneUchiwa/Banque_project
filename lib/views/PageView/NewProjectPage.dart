@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:path/path.dart' as p;
 
 import 'package:banque_projets/constante/Style.dart';
 import 'package:banque_projets/mod%C3%A8le/Projet.dart';
@@ -105,7 +106,7 @@ class _NewprojectPageState extends State<NewprojectPage> {
                     ),
                     Row(children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        padding: const EdgeInsets.only(top: 5),
                         child: Row(children: [
                           const Text("Images"),
                           Container(
@@ -122,20 +123,7 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                             color: Colors.grey,
                                             fontStyle: FontStyle.italic),
                                       ))
-                                    : Expanded(
-                                        child: Image.file(images.elementAt(0))),
-                                if (images.length > 1)
-                                  Expanded(
-                                      child: Image.file(images.elementAt(1))),
-                                if (images.length > 2)
-                                  Expanded(
-                                      child: Image.file(images.elementAt(2))),
-                                if (images.length > 3)
-                                  Expanded(
-                                      child: Image.file(images.elementAt(3))),
-                                if (images.length > 4)
-                                  Expanded(
-                                      child: Image.file(images.elementAt(4))),
+                                    : Row()
                               ],
                             ),
                           ),
@@ -144,26 +132,21 @@ class _NewprojectPageState extends State<NewprojectPage> {
                             height: 45,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: images.length == 5
-                                    ? Colors.grey
-                                    : Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.8)),
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.8)),
                             child: IconButton(
-                              onPressed: images.length == 5
-                                  ? null
-                                  : (() async {
-                                      File? file;
-                                      XFile? imagePicker = await ImagePicker()
-                                          .pickImage(
-                                              source: ImageSource.gallery);
-                                      imagePicker != null
-                                          ? file = File(imagePicker.path)
-                                          : null;
-                                      setState(() {
-                                        if (file != null) images.add(file);
-                                      });
-                                    }),
+                              onPressed: (() async {
+                                File? file;
+                                XFile? imagePicker = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                imagePicker != null
+                                    ? file = File(imagePicker.path)
+                                    : null;
+                                setState(() {
+                                  if (file != null) images.add(file);
+                                });
+                              }),
                               icon: const Icon(Icons.add),
                               color: Colors.white,
                             ),
@@ -171,22 +154,30 @@ class _NewprojectPageState extends State<NewprojectPage> {
                         ]),
                       )
                     ]),
-                    if (images.length == 5)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Center(
-                            child: Text(
-                              "Nombre maximal d'image atteint",
-                              style: TextStyle(color: Colors.redAccent),
-                            ),
+                    // les images desja selectionnées
+
+                    images.isNotEmpty
+                        ? SizedBox(
+                            height: 180,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: images.length,
+                                itemBuilder: (context, index) => Card(
+                                      elevation: 3,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          side: const BorderSide(
+                                              color: Colors.white, width: 1)),
+                                      child:
+                                          Image.file(images.elementAt(index)),
+                                    )),
                           )
-                        ],
-                      ),
+                        : Row(),
 
                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.33,
+                          width: MediaQuery.of(context).size.width * 0.30,
                           height: MediaQuery.of(context).size.height * 0.1,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -236,22 +227,26 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                             : null;
                                         setState(() {
                                           if (file != null) {
-                                            nom_rapport =
-                                                result!.files.single.name;
+                                            result!.files.single.name.length >
+                                                    16
+                                                ? nom_rapport =
+                                                    "(${result.files.single.name.substring(0, 16)}...)${p.extension(result.files.single.path!)}"
+                                                : nom_rapport= result.files.single.name;
                                             rapport = file;
                                           }
                                         });
                                       },
                                       child: nom_rapport == null
                                           ? const Text(
-                                              "aucun rapport",
-                                              style:
-                                                  TextStyle(color: Colors.grey),
+                                              "cliquez ici pour ajouter",
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontStyle: FontStyle.italic),
                                             )
                                           : Text(
                                               nom_rapport!,
                                               style: const TextStyle(
-                                                  color: Colors.grey),
+                                                  color: Colors.blue),
                                             ))
                                 ],
                               ),
@@ -275,21 +270,25 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                           : null;
                                       setState(() {
                                         if (file != null) {
-                                          nom_code = result!.files.single.name;
+                                          result!.files.single.name.length > 16
+                                              ? nom_code =
+                                                  "(${result.files.single.name.substring(0, 16)}...)${p.extension(result.files.single.path!)}"
+                                              : nom_code= result.files.single.name;
                                           code_source = file;
                                         }
                                       });
                                     },
                                     child: nom_code == null
                                         ? const Text(
-                                            "aucun document",
-                                            style:
-                                                TextStyle(color: Colors.grey),
+                                            "cliquez ici pour ajouter",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontStyle: FontStyle.italic),
                                           )
                                         : Text(
                                             nom_code!,
-                                            style:
-                                                TextStyle(color: Colors.grey),
+                                            style: const TextStyle(
+                                                color: Colors.blue),
                                           ),
                                   )
                                 ],
@@ -302,7 +301,25 @@ class _NewprojectPageState extends State<NewprojectPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  formKey.currentState!.reset();
+                                  titre = null;
+                                  description = null;
+                                  nom_code = null;
+                                  nom_rapport = null;
+                                  code_source = null;
+                                  rapport = null;
+                                  images = [];
+                                });
+                              },
+                              style: ButtonStyle(
+                                  fixedSize: MaterialStateProperty.all(
+                                      const Size(160, 35)),
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)))),
                               child: const Text(
                                 "Réinitialiser",
                                 style: TextStyle(fontSize: 18),
@@ -349,7 +366,14 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                   ),
                                 ));
                               }
-                            }, //style: ButtonStyle( ),
+                            },
+                            style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(
+                                    const Size(160, 35)),
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)))),
                             child: const Text(
                               "Enregister",
                               style: TextStyle(fontSize: 18),

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:path/path.dart' as p;
 import 'package:banque_projets/mod%C3%A8le/Departement.dart';
 import 'package:banque_projets/mod%C3%A8le/Filiere.dart';
 import 'package:banque_projets/mod%C3%A8le/Groupe.dart';
@@ -30,7 +30,7 @@ class DatabaseService {
       "code_source": projet.code_source,
       "timestamp": FieldValue.serverTimestamp(),
       "uid": projet.uidlist,
-      "progress": projet.progress,
+      "progress": 2,
       "number": projet.number
     }).then((DocumentReference doc) => projet.id_projet = doc.id);
   }
@@ -253,7 +253,7 @@ class DatabaseService {
 
     for (var image in images) {
       int i = 1;
-      reference = _storage.ref().child("$projectLocation/images/image$i.png");
+      reference = _storage.ref().child("$projectLocation/images/image$i${p.extension(image.path)}");
       uploadTask = reference.putFile(image);
       taskSnapshot = await uploadTask;
       projet.images.add(await taskSnapshot.ref.getDownloadURL());
@@ -262,7 +262,9 @@ class DatabaseService {
     //sauvegarde du rapport
 
     if (rapport != null) {
-      reference = _storage.ref().child("$projectLocation/rapport.docx");
+      reference = _storage
+          .ref()
+          .child("$projectLocation/rapport${p.extension(rapport.path)}");
       uploadTask = reference.putFile(rapport);
       taskSnapshot = await uploadTask;
       projet.rapport = await taskSnapshot.ref.getDownloadURL();
@@ -271,7 +273,7 @@ class DatabaseService {
     //sauvegarde du code source
 
     if (codeSource != null) {
-      reference = _storage.ref().child("$projectLocation/code_source.zip");
+      reference = _storage.ref().child("$projectLocation/code_source${p.extension(codeSource.path)}");
       uploadTask = reference.putFile(codeSource);
       taskSnapshot = await uploadTask;
       projet.code_source = await taskSnapshot.ref.getDownloadURL();
@@ -323,14 +325,14 @@ class DatabaseService {
 
     if (projet.rapport != null) {
       fileRef = _storage.refFromURL(projet.rapport!);
-      filepath = "${dirpath}/rapport.docx";
+      filepath = "$dirpath/rapport${p.extension(fileRef.fullPath)}";
       file = File(filepath);
       downloadTask = fileRef.writeToFile(file);
     }
 
-    if (projet.code_source!=null) {
+    if (projet.code_source != null) {
       fileRef = _storage.refFromURL(projet.code_source!);
-      filepath = "${dirpath}/code_source.zip";
+      filepath = "$dirpath/code_source${p.extension(fileRef.fullPath)}";
       file = File(filepath);
       downloadTask = fileRef.writeToFile(file);
     }
@@ -343,13 +345,13 @@ class DatabaseService {
 
     int cpt_images = 1;
 
-    projet.images.forEach((element) {
+    for (var element in projet.images) {
       fileRef = _storage.refFromURL(element!);
-      filepath = "${dirpath}/image$cpt_images.png";
+      filepath = "$dirpath/image$cpt_images${p.extension(fileRef.fullPath)}";
       file = File(filepath);
       downloadTask = fileRef.writeToFile(file);
       cpt_images++;
-    });
+    }
     state = 1;
     // try {
     //   downloadTask = fileRef.writeToFile(file);

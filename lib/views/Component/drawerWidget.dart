@@ -27,7 +27,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     } else {
       try {
         photo = NetworkImage(widget.user.photoURL!);
-      } on Exception {
+      } catch (e) {
         photo = const ExactAssetImage("assets/profile_img.png");
       }
     }
@@ -45,15 +45,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               height: MediaQuery.of(context).size.height * 0.35,
               width: double.infinity,
               //width: MediaQuery.of(context).size.width * 0.8,
-              margin: const EdgeInsets.only(top: 20),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                         alignment: Alignment.bottomLeft,
                         margin: const EdgeInsets.only(bottom: 10),
-                        height: MediaQuery.of(context).size.height * 0.20,
+                        height: MediaQuery.of(context).size.height * 0.15,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -156,7 +156,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               },
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -164,7 +164,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         width: 50,
                         child: Icon(
                           Icons.add,
-                          size: 20,
+                          size: 15,
                           color: Theme.of(context).colorScheme.primary,
                         )),
                     Text(
@@ -188,7 +188,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               },
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -196,7 +196,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         width: 50,
                         child: Icon(
                           Icons.dashboard_customize,
-                          size: 20,
+                          size: 15,
                           color: Theme.of(context).colorScheme.primary,
                         )),
                     Text(
@@ -220,7 +220,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               },
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -228,7 +228,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         width: 50,
                         child: Icon(
                           Icons.settings,
-                          size: 20,
+                          size: 15,
                           color: Theme.of(context).colorScheme.primary,
                         )),
                     Text(
@@ -250,7 +250,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               },
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -258,7 +258,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         width: 50,
                         child: Icon(
                           Icons.info,
-                          size: 20,
+                          size: 15,
                           color: Theme.of(context).colorScheme.primary,
                         )),
                     Text(
@@ -276,7 +276,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               onTap: () => AuthentificationService().signOut(),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -284,7 +284,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         width: 50,
                         child: Icon(
                           Icons.logout,
-                          size: 20,
+                          size: 15,
                           color: Theme.of(context).colorScheme.primary,
                         )),
                     Text(
