@@ -144,7 +144,7 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                     ? file = File(imagePicker.path)
                                     : null;
                                 setState(() {
-                                  if (file != null) images.add(file);
+                                  if (file != null) images.insert(0, file);
                                 });
                               }),
                               icon: const Icon(Icons.add),
@@ -160,18 +160,44 @@ class _NewprojectPageState extends State<NewprojectPage> {
                         ? SizedBox(
                             height: 180,
                             child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: images.length,
-                                itemBuilder: (context, index) => Card(
-                                      elevation: 3,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          side: const BorderSide(
-                                              color: Colors.white, width: 1)),
-                                      child:
-                                          Image.file(images.elementAt(index)),
-                                    )),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: images.length,
+                              itemBuilder: (context, index) => Card(
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      side: const BorderSide(
+                                          color: Colors.white, width: 1)),
+                                  child: Row(
+                                    children: [
+                                      Image.file(images.elementAt(index)),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                              width: 45,
+                                              height: 45,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Theme.of(context)
+                                                      .primaryColor
+                                                      .withOpacity(0.1)),
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      images.removeAt(index);
+                                                    });
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete_forever_sharp,
+                                                    color: Colors.red,
+                                                  )))
+                                        ],
+                                      )
+                                    ],
+                                  )),
+                            ),
                           )
                         : Row(),
 
@@ -231,7 +257,8 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                                     16
                                                 ? nom_rapport =
                                                     "(${result.files.single.name.substring(0, 16)}...)${p.extension(result.files.single.path!)}"
-                                                : nom_rapport= result.files.single.name;
+                                                : nom_rapport =
+                                                    result.files.single.name;
                                             rapport = file;
                                           }
                                         });
@@ -273,7 +300,8 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                           result!.files.single.name.length > 16
                                               ? nom_code =
                                                   "(${result.files.single.name.substring(0, 16)}...)${p.extension(result.files.single.path!)}"
-                                              : nom_code= result.files.single.name;
+                                              : nom_code =
+                                                  result.files.single.name;
                                           code_source = file;
                                         }
                                       });
@@ -356,13 +384,14 @@ class _NewprojectPageState extends State<NewprojectPage> {
                                     null,
                                     Projet.total + 1);
 
+
                                 db.uploadProjet(
                                     projet, images, rapport, code_source);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
                                   behavior: SnackBarBehavior.floating,
                                   content: Text(
-                                    "projet crée",
+                                    "projet enregistré",
                                   ),
                                 ));
                               }

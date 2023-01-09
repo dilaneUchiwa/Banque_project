@@ -33,8 +33,8 @@ class _LoginPageState extends State<LoginPage> {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           child: const Text("Bienvenu dans Bank Project",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         ),
         Container(
           height: MediaQuery.of(context).size.height * 0.20,
@@ -42,7 +42,8 @@ class _LoginPageState extends State<LoginPage> {
           margin: const EdgeInsets.only(top: 20),
           decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              image: DecorationImage(image: AssetImage("assets/uds_img.png"))),
+              image: DecorationImage(
+                  image: AssetImage("assets/bank_project_icon800.800.png"))),
         ),
         Container(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),

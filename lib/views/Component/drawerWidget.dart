@@ -4,6 +4,7 @@ import 'package:banque_projets/views/PageView/NewProjectPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../modèle/Projet.dart';
 import '../PageView/StructurePage.dart';
 
 class DrawerWidget extends StatefulWidget {

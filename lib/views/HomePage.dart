@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                   } else {
                     var listeProjet = snapshot.data as List<Projet>;
                     if (listeProjet.length == 1) {
-                      return ProjectPage(listeProjet[0],true);
+                      return ProjectPage(listeProjet[0], true);
                     } else {
                       return SafeArea(
                         child: Column(
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                                             "BIENVENU ... \t\t\t\t\t|\t\t\t\t\t VOICI VOS DIFFERENTS PROJETS",
                                             style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 13,
+                                                fontSize: 11,
                                                 fontWeight: FontWeight.bold)),
                                       ],
                                     ))),

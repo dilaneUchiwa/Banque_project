@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:banque_projets/mod%C3%A8le/Etablissement.dart';
 import 'package:path/path.dart' as p;
 import 'package:banque_projets/mod%C3%A8le/Departement.dart';
 import 'package:banque_projets/mod%C3%A8le/Filiere.dart';
@@ -31,8 +32,15 @@ class DatabaseService {
       "timestamp": FieldValue.serverTimestamp(),
       "uid": projet.uidlist,
       "progress": 2,
+      "promotion":Promotion.triche,
       "number": projet.number
     }).then((DocumentReference doc) => projet.id_projet = doc.id);
+
+    Projet.total++;
+    _db
+        .collection("Etablissement")
+        .doc(Etablissement.id)
+        .update({"total": Projet.total});
   }
 
   void AddDepartement(Departement dept) {
@@ -73,6 +81,27 @@ class DatabaseService {
             (DocumentReference doc) => matiere.id_matiere = doc.id);
   }
 
+  //Mise à jour des éléments de la BD
+
+  void UpdateProjet(Projet projet, String ref) {
+    _db.collection("Projet").doc(ref).update({
+      "titre": projet.titre,
+      "description": projet.description,
+      "images": projet.images,
+      "timestamp": FieldValue.serverTimestamp(),
+    });
+    projet.code_source != null
+        ? _db.collection("Projet").doc(ref).update({
+            "code_source": projet.code_source,
+          })
+        : null;
+    projet.rapport != null
+        ? _db.collection("Projet").doc(ref).update({
+            "rapport": projet.rapport,
+          })
+        : null;
+  }
+
   //Récuperation des éléments de la BD
 
   Stream<List<Departement>> get departements {
@@ -83,7 +112,6 @@ class DatabaseService {
               return Departement(document.id, document.get("nom"));
             }).toList());
   }
-
 
   Stream<List<Filiere>> getFilieres(Departement dept) {
     return _db
@@ -140,7 +168,6 @@ class DatabaseService {
         .collection("Matiere")
         .snapshots()
         .map((snapshot) => snapshot.docs.map((document) {
-              print("Voici ce que tu cherches :  ${document.get("intitulé")}");
               return Matiere(document.id, document.get("code_ue"),
                   document.get("intitulé"), niveau);
             }).toList());
@@ -202,6 +229,15 @@ class DatabaseService {
   // }
 
   Stream<List<Projet>> getUserprojects(User user) {
+    _db
+        .collection("Etablissement")
+        .where("nom", isEqualTo: "iut")
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((document) {
+              Etablissement.id = document.id;
+              Projet.total = document.get("total");
+            }).toList());
+
     return _db
         .collection("Projet")
         .where("uid", isEqualTo: user.uid)
@@ -241,25 +277,36 @@ class DatabaseService {
             }).toList());
   }
 
+  // suppression d'element de la structure
+
+  void DeleteProjet(Projet projet) {
+    _db.collection("Projet").doc(projet.id_projet).delete();
+  }
+
   // fonction de téléchargement et sauvegarde d'elements
   Future<void> uploadProjet(
       Projet projet, List<File> images, File? rapport, File? codeSource) async {
+    projet.number = Projet.total + 1;
+
     final String projectLocation =
-        "projet/projet${Projet.total + 1}"; //l'aborescence ou sera stocker le projet dans clous_storage
+        "projet/projet${projet.number}"; //l'aborescence ou sera stocker le projet dans clous_storage
     Reference reference; //le chemin d'acess et le nom de stockage
     UploadTask uploadTask; //le tache de mise en ligne
-    TaskSnapshot taskSnapshot; //les resultats de cette taches
+    TaskSnapshot taskSnapshot;
+
+    //les resultats de cette taches
 
     // sauvegarde des images
 
+    int i = 1;
     for (var image in images) {
-      int i = 1;
       reference = _storage
           .ref()
           .child("$projectLocation/images/image$i${p.extension(image.path)}");
       uploadTask = reference.putFile(image);
       taskSnapshot = await uploadTask;
       projet.images.add(await taskSnapshot.ref.getDownloadURL());
+      i++;
     }
 
     //sauvegarde du rapport

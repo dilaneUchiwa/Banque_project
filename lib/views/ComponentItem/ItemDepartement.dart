@@ -13,8 +13,8 @@ class ItemDepartement extends StatelessWidget {
       children: [
         ListTile(
           leading: Container(
-            height: MediaQuery.of(context).size.height * 0.2,
-            width: MediaQuery.of(context).size.width * 0.15,
+            height: MediaQuery.of(context).size.height * 0.18,
+            width: MediaQuery.of(context).size.width * 0.13,
             decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 image:
@@ -25,7 +25,7 @@ class ItemDepartement extends StatelessWidget {
           tileColor: Colors.white,
           title: Text(
             dept.nom!.toUpperCase(),
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
           ),
           onTap: () {
             var route = MaterialPageRoute(

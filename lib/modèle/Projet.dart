@@ -14,7 +14,7 @@ class Projet {
   List<dynamic?> images;
   String? rapport;
   String? code_source;
-  int? progress=0;
+  int? progress = 0;
   int number;
 
   Projet(
@@ -27,9 +27,7 @@ class Projet {
       this.rapport,
       this.code_source,
       this.progress,
-      this.number) {
-    total++;
-  }
+      this.number);
   Projet.idNull(this.titre, this.description, this.uidlist, this.timestamp,
-      this.images, this.rapport, this.code_source, this.progress,this.number);
+      this.images, this.rapport, this.code_source, this.progress, this.number);
 }

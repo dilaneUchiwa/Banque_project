@@ -23,7 +23,8 @@ class _UpdateprojectPageState extends State<UpdateprojectPage> {
   String? titre;
   String? description;
 
-  List<File> images = [];
+  List<dynamic> images = [];
+
   File? rapport = null;
   String? nom_rapport = null;
 
@@ -41,19 +42,21 @@ class _UpdateprojectPageState extends State<UpdateprojectPage> {
       rapport = null;
     }
 
-    print(widget.projet.code_source);
-
     if (widget.projet.code_source != null) {
       nom_code = "code_source";
       rapport = null;
     }
+    images = widget.projet.images;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Mise à Jour --> Projet"),
+            title: const Text(
+              "Mise à Jour --> Projet",
+              style: TextStyle(fontSize: 17),
+            ),
             centerTitle: true,
             actions: <Widget>[
               Container(
@@ -165,7 +168,7 @@ class _UpdateprojectPageState extends State<UpdateprojectPage> {
                                     ? file = File(imagePicker.path)
                                     : null;
                                 setState(() {
-                                  if (file != null) images.add(file);
+                                  if (file != null) images.insert(0, file);
                                 });
                               }),
                               icon: const Icon(Icons.add),
@@ -181,18 +184,47 @@ class _UpdateprojectPageState extends State<UpdateprojectPage> {
                         ? SizedBox(
                             height: 180,
                             child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: images.length,
-                                itemBuilder: (context, index) => Card(
-                                      elevation: 3,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          side: const BorderSide(
-                                              color: Colors.white, width: 1)),
-                                      child:
-                                          Image.file(images.elementAt(index)),
-                                    )),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: images.length,
+                              itemBuilder: (context, index) => Card(
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      side: const BorderSide(
+                                          color: Colors.white, width: 1)),
+                                  child: Row(
+                                    children: [
+                                      images.elementAt(index) is File
+                                          ? Image.file(images.elementAt(index))
+                                          : Image.network(
+                                              images.elementAt(index)),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                              width: 45,
+                                              height: 45,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Theme.of(context)
+                                                      .primaryColor
+                                                      .withOpacity(0.1)),
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      images.removeAt(index);
+                                                    });
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete_forever_sharp,
+                                                    color: Colors.red,
+                                                  )))
+                                        ],
+                                      )
+                                    ],
+                                  )),
+                            ),
                           )
                         : Row(),
 
@@ -325,16 +357,7 @@ class _UpdateprojectPageState extends State<UpdateprojectPage> {
                         children: [
                           ElevatedButton(
                               onPressed: () {
-                                setState(() {
-                                  formKey.currentState!.reset();
-                                  titre = null;
-                                  description = null;
-                                  nom_code = null;
-                                  nom_rapport = null;
-                                  code_source = null;
-                                  rapport = null;
-                                  images = [];
-                                });
+                                Navigator.pop(context);
                               },
                               style: ButtonStyle(
                                   fixedSize: MaterialStateProperty.all(
@@ -344,7 +367,7 @@ class _UpdateprojectPageState extends State<UpdateprojectPage> {
                                           borderRadius:
                                               BorderRadius.circular(10)))),
                               child: const Text(
-                                "Réinitialiser",
+                                "Annuler",
                                 style: TextStyle(fontSize: 18),
                               )),
                           ElevatedButton(
@@ -378,14 +401,15 @@ class _UpdateprojectPageState extends State<UpdateprojectPage> {
                                     null,
                                     null,
                                     Projet.total + 1);
-
+                                db.DeleteProjet(widget.projet);
                                 db.uploadProjet(
-                                    projet, images, rapport, code_source);
+                                    projet, [], rapport, code_source);
+
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
                                   behavior: SnackBarBehavior.floating,
                                   content: Text(
-                                    "projet crée",
+                                    "projet mis à jour",
                                   ),
                                 ));
                               }
@@ -398,7 +422,7 @@ class _UpdateprojectPageState extends State<UpdateprojectPage> {
                                         borderRadius:
                                             BorderRadius.circular(10)))),
                             child: const Text(
-                              "Enregister",
+                              "Mettre à jour",
                               style: TextStyle(fontSize: 18),
                             ),
                           ),

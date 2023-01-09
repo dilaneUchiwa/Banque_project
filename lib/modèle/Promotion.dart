@@ -6,5 +6,7 @@ class Promotion {
   int annee;
   //Matiere matiere;
   Niveau niveau;
+  static String triche="ZoBhznFrpBlKpzNOASkT";
+
   Promotion(this.id_promotion, this.annee, this.niveau);
 }

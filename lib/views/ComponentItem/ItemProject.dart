@@ -24,7 +24,7 @@ class ItemProject extends StatelessWidget {
               title: Text(
                 projet.titre.toUpperCase(),
                 style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: Colors.red),
               ),
@@ -33,10 +33,11 @@ class ItemProject extends StatelessWidget {
                       ? "${projet.description.substring(0, 120)}   ............."
                       : projet.description,
                   style: const TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.bold)),
+                      fontSize: 11, fontWeight: FontWeight.bold)),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => ProjectPage(projet,false)));
+                    builder: (BuildContext context) =>
+                        ProjectPage(projet, false)));
               }),
         ],
       ),
